@@ -2,30 +2,39 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#define SCREEN_WIDTH 128 // OLED width,  in pixels
-#define SCREEN_HEIGHT 64 // OLED height, in pixels
+#define SCREEN_WIDTH 128 // Amplada de la pantalla OLED, en píxels
+#define SCREEN_HEIGHT 64 // Alçada de la pantalla OLED, en píxels
 
-// create an OLED display object connected to I2C
+// Crea un objecte OLED connectat per I2C
 Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 void setup() {
   Serial.begin(9600);
 
-  // initialize OLED display with I2C address 0x3C
+  // Inicialitza la pantalla OLED amb l'adreça I2C 0x3C
   if (!oled.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("failed to start SSD1306 OLED"));
+    Serial.println(F("No s'ha pogut iniciar la pantalla OLED SSD1306"));
     while (1);
   }
 
-  delay(2000);         // wait two seconds for initializing
-  oled.clearDisplay(); // clear display
+  delay(1000);         // Espera un segon per inicialitzar
+  oled.clearDisplay(); // Neteja la pantalla
 
-  oled.setTextSize(1);         // set text size
-  oled.setTextColor(WHITE);    // set text color
-  oled.setCursor(0, 2);       // set position to display (x,y)
-  oled.println("Robotronix"); // set text
-  oled.display();              // display on OLED
+  oled.setTextSize(1);         // Mida del text
+  oled.setTextColor(WHITE);    // Color del text
+
+  // Animació de desplaçament del text
+  for (int x = SCREEN_WIDTH; x >= 0; x -= 5) {
+    oled.clearDisplay();
+    oled.setCursor(x, 25);     // Posició del text
+    oled.println("Robotronix"); 
+    oled.display();
+    delay(100);
+  }
+
+  delay(1000); // Pausa final
 }
 
 void loop() {
+  // Aquí pots afegir funcionalitat futura
 }
